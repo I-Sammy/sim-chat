@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet, ImageBackground, TouchableOpacity, Image, Dimensions } from 'react-native';
 
 const backgroundColors = {
   black: { backgroundColor: "#090C08" },
@@ -16,18 +16,28 @@ export default class Start extends Component {
   render() {
     const { black, purple, grey, green } = backgroundColors;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <ImageBackground
           source={require("../assets/background-image.png")}
           style={styles.image}
         >
           <Text style={styles.title}>Sim Chat</Text>
-          <View style={styles.box}>
-            <TextInput style={[styles.input, styles.text]}
+          <View style={styles.startWrapper}>
+            <View style={styles.inputWrapper}>
+              <Image style={styles.icon} source={require('../assets/icon.svg')} />
+              <TextInput
+                style={styles.input}
+                onChangeText={(name) => this.setState({ name })}
+                value={this.state.name}
+                placeholder="Enter Your Name:"
+              />
+            </View>
+            <View style={styles.colorWrapper}>
+              {/* <TextInput style={[styles.input, styles.text]}
               onChangeText={(name) => this.setState({ name })}
               value={this.state.name} placeholder="Enter your name here"
             />
-            <View>
+            <View> */}
               <Text style={styles.text}>Select Background Color</Text>
               <View style={[styles.colors, styles.colorBox]}>
                 <TouchableOpacity
@@ -49,10 +59,14 @@ export default class Start extends Component {
               </View>
             </View>
             <TouchableOpacity
-              style={styles.button} title="Start Chatting" onPress={() => this.props.navigation.navigate("Chat", {
+              style={styles.button} onPress={() => this.props.navigation.navigate("Chat", {
                 name: this.state.name,
                 color: this.state.color,
-              })}>
+              })}
+              accessible={true}
+              accessibilityLabel='Start chatting'
+              accessibilityHint='Enter the chat room, where you can send messages to your contacts.'
+            >
               <Text style={styles.buttonText}>Start Chatting</Text>
             </TouchableOpacity>
           </View>
@@ -62,20 +76,53 @@ export default class Start extends Component {
   }
 }
 
-const styles = StyleSheet.create({
 
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   image: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    resizeMode: "cover",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    resizeMode: 'cover',
+    paddingVertical: '6%',
   },
 
   title: {
+    flex: 1,
     fontSize: 45,
-    fontWeight: "600",
-    color: "#fff",
+    fontWeight: '600',
+    color: '#FFFFFF',
+    paddingTop: '10%',
+    paddingBottom: 0,
+    marginBottom: 0,
+  },
+
+  startWrapper: {
+    flex: 2,
+    backgroundColor: 'white',
+    height: '20%',
+    width: '88%',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingVertical: '6%',
+  },
+
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'lightgrey',
+    opacity: 50,
+    height: 60,
+    width: '88%',
+    borderColor: 'lightgrey',
+    borderWidth: 2,
+    borderRadius: 5,
+    paddingLeft: 5,
+    paddingRight: -2
   },
 
   text: {
@@ -111,12 +158,18 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    height: 50,
-    width: "88%",
-    borderColor: "gray",
-    color: "#757083",
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#757083',
+    height: 60,
+    borderColor: 'rgba(0,0,0,0)',
     borderWidth: 2,
-    borderRadius: 20,
+    borderRadius: 5,
+    position: 'absolute',
+    left: -2,
+    paddingLeft: 35,
+    paddingRight: 20,
+    width: '101%'
   },
 
   button: {
@@ -141,4 +194,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
 });
